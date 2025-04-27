@@ -177,11 +177,3 @@ fn main() {
     }
 }
 ```
-
----
-
-# ✅ Notes
-
-- Replace `satyajitnayk` with your actual GitHub username in badges.
-- If you change the crate name (`natural-cron-rs` → `natural_cron`), update the docs URL.
-- Later, you can add feature flags (e.g., `"serde"` support) if needed.
