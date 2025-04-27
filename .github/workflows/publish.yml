@@ -1,0 +1,35 @@
+name: Publish to crates.io
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Extract version from tag name
+        id: extract_version
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/}"
+          echo "Version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Set Cargo version in `Cargo.toml`
+        run: |
+          # Update `Cargo.toml` with the version from the tag
+          sed -i "s/^version = \".*\"/version = \"${{ env.VERSION }}\"/" Cargo.toml
+
+      - name: Publish crate
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --verbose
