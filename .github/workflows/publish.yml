@@ -32,4 +32,4 @@ jobs:
       - name: Publish crate
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish --verbose
+        run: cargo publish --verbose --allow-dirty # Allow dirty state (uncommitted changes)
